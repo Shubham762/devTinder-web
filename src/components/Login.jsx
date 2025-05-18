@@ -54,7 +54,8 @@ const Login = () => {
           </div>
           <div className="card-actions justify-center m-2">
             <button
-              className="btn btn-primary text-zinc-900"
+             // className="btn btn-primary text-zinc-900"
+              className="btn btn-primary"
               onClick={handleLogIn}
             >
               Login
