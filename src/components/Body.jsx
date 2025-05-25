@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./Navbar";
 import Footer from "./Footer";
 import { BASE_URL } from "../utils/constants";

@@ -1,12 +1,36 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
+import { removeUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
   const user = useSelector((store) => store.user);
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        BASE_URL + "/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+
+      );
+      dispatch(removeUser());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="navbar fixed top-0 bg-base-300 shadow-sm w-screen">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">🧑‍💻 DevTinder </Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          🧑‍💻 DevTinder{" "}
+        </Link>
       </div>
       <div className="flex gap-2">
         {user && (
@@ -18,10 +42,7 @@ const NavBar = () => {
               className="btn btn-ghost btn-circle avatar  mx-2"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="photoUrl"
-                  src={user.photoUrl}
-                />
+                <img alt="photoUrl" src={user.photoUrl} />
               </div>
             </div>
             <ul
@@ -38,7 +59,7 @@ const NavBar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={()=>handleLogout()}>Logout</a>
               </li>
             </ul>
           </div>

@@ -7,6 +7,7 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [emailId, setEmailId] = useState("Shubham@mail.com");
   const [password, setPassword] = useState("Shubham@90855");
+  const [error,setError]=useState("");
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const handleLogIn = async () => {
@@ -14,8 +15,8 @@ const Login = () => {
       const res = await axios.post(
           BASE_URL + "/login",
         {
-          emailId,
-          password,
+          emailId:emailId,
+          password:password,
         },
         {
           withCredentials: true,
@@ -24,6 +25,7 @@ const Login = () => {
       dispatch(addUser(res.data.data));
       navigate("/");
     } catch (err) {
+      setError(err?.response?.data?.message || "Something went wrong");
       console.log(err);
     }
   };
@@ -34,7 +36,7 @@ const Login = () => {
           <h2 className="card-title justify-center">Login</h2>
           <div>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend">Email Id : {emailId}</legend>
+              <legend className="fieldset-legend">Email Id</legend>
               <input
                 type="text"
                 value={emailId}
@@ -52,10 +54,11 @@ const Login = () => {
               />
             </fieldset>
           </div>
+          <p className="text-error">{error}</p>
           <div className="card-actions justify-center m-2">
             <button
-             // className="btn btn-primary text-zinc-900"
-              className="btn btn-primary"
+              className="btn btn-primary text-zinc-900"
+             // className="btn btn-primary"
               onClick={handleLogIn}
             >
               Login
